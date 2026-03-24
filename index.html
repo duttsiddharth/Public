@@ -312,7 +312,7 @@
 </div>
 
 <script>
-let apiKey = localStorage.getItem('nyay_gemini_key') || '';
+let apiKey = 'AIzaSyC39W0AuAk5ZEcGq0VRZ1xnqEcVuEAnKOI';
 let currentTopic = null;
 let currentLang = 'en';
 let messages = [];
@@ -321,7 +321,7 @@ let generatedLetter = '';
 let isLoading = false;
 
 const GEMINI_URL = key =>
-  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
+  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`;
 
 const topics = {
   tenant: {
@@ -376,7 +376,7 @@ const topics = {
 };
 
 window.onload = () => {
-  if (apiKey) document.getElementById('api-banner').classList.add('hidden');
+  document.getElementById('api-banner').classList.add('hidden');
   updateLang();
 };
 
@@ -502,7 +502,7 @@ Instructions:
 4. Use **bold** for important terms or law names.
 5. Use bullet points (start lines with • ) for steps or lists.
 6. Be warm and empathetic — users are often stressed.
-7. Keep responses under 230 words.
+7. Keep responses between 150-250 words. Always write complete sentences — never stop mid-sentence.
 8. Always end with this exact disclaimer on a new line: ⚠️ ${currentLang === 'hi' ? 'यह सामान्य जागरूकता के लिए है। गंभीर मामलों में योग्य वकील से मिलें।' : 'This is for general awareness only. For serious legal matters, please consult a qualified lawyer.'}`;
 
   const contents = messages.slice(-8).map(m => ({
@@ -517,7 +517,7 @@ Instructions:
       body: JSON.stringify({
         system_instruction: { parts: [{ text: sysText }] },
         contents,
-        generationConfig: { maxOutputTokens: 700, temperature: 0.7 }
+        generationConfig: { maxOutputTokens: 2048, temperature: 0.6 }
       })
     });
     const data = await resp.json();
@@ -598,7 +598,7 @@ REQUIREMENTS:
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { maxOutputTokens: 1000, temperature: 0.4 }
+        generationConfig: { maxOutputTokens: 2048, temperature: 0.4 }
       })
     });
     const data = await resp.json();
